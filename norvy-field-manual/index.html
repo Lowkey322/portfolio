@@ -1,0 +1,91 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Norvy Field Manual</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* layout: one dark table under the sheets; Behance as a single feed column, Dribbble as a shot grid */
+:root{
+  --ink:#141414; --ink-2:#1e1d1b; --paper:#c2beb5; --paper-60:rgba(194,190,181,.6); --rule:rgba(194,190,181,.16); --signal:#e8501a;
+  --display:'Archivo',Arial,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--paper);font:400 16px/1.5 var(--display);margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 80px}
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:1px solid var(--rule);padding-bottom:24px}
+h1{margin:0;font:800 clamp(40px,7vw,88px)/.86 var(--display);letter-spacing:-.035em;text-wrap:balance}
+h1 i{display:inline-block;width:.17em;height:.17em;border-radius:50%;background:var(--signal);font-style:normal;vertical-align:.62em;margin-left:.04em}
+header p{margin:14px 0 0;max-width:34em;color:var(--paper-60)}
+.tabs{display:flex;gap:6px}
+.tabs button{font:500 13px/1 var(--mono);letter-spacing:.03em;color:var(--paper);background:transparent;border:1px solid var(--rule);padding:11px 14px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.tabs button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin:20px 0 28px;font:500 12px/1.4 var(--mono);color:var(--paper-60)}
+.meta b{color:var(--paper);font-weight:500}
+.feed{max-width:980px;margin:0 auto;display:flex;flex-direction:column}
+.feed img,.feed video,.grid img,.grid video{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:4/3;background:var(--ink-2)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.shot figcaption{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font:500 12px/1.4 var(--mono);color:var(--paper-60)}
+.shot figcaption b{color:var(--paper);font-weight:500}
+figure{margin:0}
+@media (max-width:720px){header{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){video{display:none!important}.still{display:block!important}}
+.still{display:none}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Norvy field manual<i></i></h1>
+      <p>Case study for the Norvy folding e-bike site, drawn as a five-sheet technical manual. One set joins into a seamless Behance longread, the other works as five standalone Dribbble shots.</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button id="t-be" role="tab" aria-selected="true" aria-controls="p-be">Behance</button>
+      <button id="t-dr" role="tab" aria-selected="false" aria-controls="p-dr">Dribbble</button>
+    </div>
+  </header>
+
+  <section id="p-be" role="tabpanel" aria-labelledby="t-be">
+    <div class="meta"><span>Sheets <b>5 × 1920 × 1440</b></span><span>Joins <b>paper creases, zone letters A to Z run on</b></span><span>Motion <b>sheets 1, 4, 5</b></span></div>
+    <div class="feed">
+      <video src="be/s1.mp4" poster="be/s1.jpg" autoplay muted loop playsinline></video><img class="still" src="be/s1.jpg" alt="Sheet 1, cover">
+      <img src="be/s2.jpg" alt="Sheet 2, geometry in black and white with guides">
+      <img src="be/s3.jpg" alt="Sheet 3, colours, typefaces and the Figma working file">
+      <video src="be/s4.mp4" poster="be/s4.jpg" autoplay muted loop playsinline></video><img class="still" src="be/s4.jpg" alt="Sheet 4, exploded layers and timeline">
+      <video src="be/s5.mp4" poster="be/s5.jpg" autoplay muted loop playsinline></video><img class="still" src="be/s5.jpg" alt="Sheet 5, click to ride">
+    </div>
+  </section>
+
+  <section id="p-dr" role="tabpanel" aria-labelledby="t-dr" hidden>
+    <div class="meta"><span>Shots <b>5 × 1600 × 1200</b></span><span>Frame <b>full drawing border on every shot</b></span><span>Motion <b>MP4 under 20 MB, GIF under 10 MB</b></span></div>
+    <div class="grid">
+      <figure class="shot"><video src="dr/s1.mp4" poster="dr/s1.jpg" autoplay muted loop playsinline></video><img class="still" src="dr/s1.jpg" alt=""><figcaption><b>Shot 1, cover</b><span>MP4 + GIF</span></figcaption></figure>
+      <figure class="shot"><img src="dr/s2.jpg" alt="Geometry"><figcaption><b>Shot 2, geometry</b><span>PNG</span></figcaption></figure>
+      <figure class="shot"><img src="dr/s3.jpg" alt="System"><figcaption><b>Shot 3, system</b><span>PNG</span></figcaption></figure>
+      <figure class="shot"><video src="dr/s4.mp4" poster="dr/s4.jpg" autoplay muted loop playsinline></video><img class="still" src="dr/s4.jpg" alt=""><figcaption><b>Shot 4, layers and motion</b><span>MP4 + GIF</span></figcaption></figure>
+      <figure class="shot"><video src="dr/s5.mp4" poster="dr/s5.jpg" autoplay muted loop playsinline></video><img class="still" src="dr/s5.jpg" alt=""><figcaption><b>Shot 5, click to ride</b><span>MP4 + GIF</span></figcaption></figure>
+    </div>
+  </section>
+</div>
+
+<script>
+const tabs = { be: document.getElementById('t-be'), dr: document.getElementById('t-dr') };
+const panels = { be: document.getElementById('p-be'), dr: document.getElementById('p-dr') };
+function show(k) {
+  for (const key of ['be', 'dr']) {
+    tabs[key].setAttribute('aria-selected', key === k);
+    panels[key].hidden = key !== k;
+    panels[key].querySelectorAll('video').forEach(v => key === k ? v.play().catch(() => {}) : v.pause());
+  }
+  try { localStorage.setItem('norvy-tab', k); } catch (e) {}
+}
+tabs.be.addEventListener('click', () => show('be'));
+tabs.dr.addEventListener('click', () => show('dr'));
+let start = location.hash === '#dribbble' ? 'dr' : 'be';
+try { start = localStorage.getItem('norvy-tab') || start; } catch (e) {}
+show(start);
+</script>
+
+</body></html>
