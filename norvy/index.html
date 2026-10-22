@@ -133,6 +133,8 @@ body{overflow:hidden}
   function fitL() {
     const w = innerWidth, h = innerHeight, S = Math.min(w / 1920, h / 1080);
     lst.style.transform = `translate(${(w - 1920 * S) / 2}px,${(h - 1080 * S) / 2}px) scale(${S})`;
+    /* the header line runs edge to edge of the window, not just the artboard */
+    for (const el of [$('ltrack'), rule]) { el.style.left = `${-(w - 1920 * S) / 2 / S}px`; el.style.width = `${w / S}px`; }
   }
   addEventListener('resize', fitL); fitL();
 
@@ -339,6 +341,7 @@ body{overflow:hidden}
     stage.style.transform = `translate(${x}px,${y}px) scale(${S})`;
     viewport.style.backgroundSize = `${1024 * S}px ${1024 * S}px`;
     viewport.style.backgroundPosition = `${x}px ${y}px`;
+    const hr = document.getElementById('rule'); hr.style.left = `${-x / S}px`; hr.style.width = `${w / S}px`;
   }
   addEventListener('resize', fit); fit();
 

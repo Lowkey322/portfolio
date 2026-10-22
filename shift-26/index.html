@@ -8,8 +8,13 @@
   html,body{height:100%;overflow:hidden}
   body{display:flex;align-items:center;justify-content:center}
   /* fit the whole 1920x1080 frame inside the window, letterboxed like Norvy and Curfew */
-  #wrap{position:relative;flex:none;width:min(100vw,177.7778vh);height:min(56.25vw,100vh);overflow:hidden;background:#1B1B1B}
+  #wrap{position:relative;z-index:1;flex:none;width:min(100vw,177.7778vh);height:min(56.25vw,100vh);overflow:hidden;background:#1B1B1B}
   @supports (height:100dvh){#wrap{width:min(100vw,177.7778dvh);height:min(56.25vw,100dvh)}}
+  /* edge to edge: the poster background (type rows + header/footer bands) continues past the frame */
+  #bleed{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:#1B1B1B}
+  #bleed .rows{position:absolute;inset:0;background-repeat:repeat;opacity:0}
+  #bleed .band{position:absolute;left:-10%;width:120%;background:#111;opacity:0;transition:opacity .72s cubic-bezier(.2,.8,.2,1)}
+  #bleed.on .rows,#bleed.nav .band{opacity:1}
   #design{position:absolute;inset:0;width:100%;height:100%;display:block}
   .lay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block}
   #bgc{z-index:1} #lowL{z-index:2} #fx{z-index:3} #gl{z-index:4} #tapeL{z-index:5} #topL{z-index:6}
@@ -34,6 +39,7 @@ window.__ROWS={"bgGray": [[0, 1.0, 1863.5], [1, 1.0, 1901.5], [2, 1.0, 1894.0], 
 </script>
 
 <h1 class="sr">SHIFT / 26 — Electronic music festival. 24–26.07.2026. Steel Works № 4.</h1>
+<div id="bleed" aria-hidden="true"><div class="rows"></div><div class="band top"></div><div class="band foot"></div></div>
 <div id="wrap">
   <canvas id="bgc" class="lay" aria-hidden="true"></canvas>
   <div id="lowL" class="lay" aria-hidden="true"></div>
@@ -57,7 +63,15 @@ window.__ROWS={"bgGray": [[0, 1.0, 1863.5], [1, 1.0, 1901.5], [2, 1.0, 1894.0], 
     var SVGNS='http://www.w3.org/2000/svg';
     var DPR=Math.min(window.devicePixelRatio||1,2);
     var bgDirty=true;
-    function fit(){var s=wrap.clientWidth/1920;fx.style.transform=ui.style.transform='scale('+s+')';
+    var bleed=document.getElementById('bleed'),bRows=bleed.querySelector('.rows'),
+        bTop=bleed.querySelector('.top'),bFoot=bleed.querySelector('.foot');
+    bRows.style.backgroundImage='url("'+window.__BG.gray+'")';
+    function fitBleed(){var r=wrap.getBoundingClientRect(),S=r.width/1920;
+      bRows.style.backgroundSize=(1920*S)+'px '+(1080*S)+'px';bRows.style.backgroundPosition=r.left+'px '+r.top+'px';
+      bTop.style.top=(r.top-53*S)+'px';bTop.style.height=(147*S)+'px';
+      bFoot.style.top=(r.top+1008*S)+'px';bFoot.style.height=(101*S)+'px';
+      bTop.style.filter=bFoot.style.filter='blur('+(21.4*S).toFixed(2)+'px)';}
+    function fit(){fitBleed();var s=wrap.clientWidth/1920;fx.style.transform=ui.style.transform='scale('+s+')';
       cv.width=bgc.width=Math.round(wrap.clientWidth*DPR);cv.height=bgc.height=Math.round(wrap.clientHeight*DPR);bgDirty=true;}
     fit(); window.addEventListener('resize',fit);
     function rm(e){if(e&&e.parentNode)e.parentNode.removeChild(e);}
@@ -65,7 +79,7 @@ window.__ROWS={"bgGray": [[0, 1.0, 1863.5], [1, 1.0, 1901.5], [2, 1.0, 1894.0], 
     var OVERLAYS=[cv,bgc,fx,lowL,tapeL,topL];
 
     var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduce){root.classList.remove('intro');OVERLAYS.forEach(rm);return;}
+    if(reduce){bleed.classList.add('on','nav');root.classList.remove('intro');OVERLAYS.forEach(rm);return;}
 
     var loaded=false; window.addEventListener('load',function(){loaded=true;});
     function cl(x){return x<0?0:x>1?1:x;}
@@ -285,7 +299,7 @@ void main(){
     /* ================= 3. NAVIGATION + FOOTER, then one single swap to the real design ================= */
     var navStarted=false,swapped=false;
     function startNav(){
-      if(navStarted)return;navStarted=true;buildLayers();mark('intro:nav');
+      if(navStarted)return;navStarted=true;buildLayers();mark('intro:nav');bleed.classList.add('nav');
       var A=[];
       L.band.forEach(function(e){A.push(play(e,'translate(0,-13.889%)',0,720));});
       L.fband.forEach(function(e){A.push(play(e,'translate(0,13.889%)',80,720));});
@@ -297,7 +311,7 @@ void main(){
       setTimeout(swap,4000);
     }
     function swap(){
-      if(swapped)return;swapped=true;mark('intro:swap');
+      if(swapped)return;swapped=true;mark('intro:swap');bleed.classList.add('on','nav');bRows.style.opacity='';
       /* the design is painted once, underneath identical layers, while nothing moves */
       root.classList.remove('intro');
       var done=false;function finish(){if(done)return;done=true;
@@ -318,8 +332,8 @@ void main(){
       if(!layersBuilt)buildLayers();
       var ready=loaded&&document.readyState==='complete'&&bgReady===2&&texReady();
       if(!bgDone){
-        P=progress(now,ready); drawBg(false);
-        if(P>=1&&now>(readyAt+380)&&gRows.concat(dRows).every(function(r){return r.st+r.d<=1;})){bgDone=true;drawBg(true);}
+        P=progress(now,ready); drawBg(false); bRows.style.opacity=P.toFixed(3);
+        if(P>=1&&now>(readyAt+380)&&gRows.concat(dRows).every(function(r){return r.st+r.d<=1;})){bgDone=true;drawBg(true);bleed.classList.add('on');bRows.style.opacity='';}
       }else if(bgDirty){drawBg(true);}
       bgDirty=false;
       if(ready&&!readySince)readySince=now;
