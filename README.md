@@ -4,9 +4,7 @@ Static project pages. Each folder is deployed to Vercel as its own project (Root
 
 | Folder | Project |
 | --- | --- |
-| `norvy-urban-fold/` | Norvy — Urban Fold (hero) |
-| `norvy-fold-motion/` | Norvy — Fold Motion |
-| `norvy-field-manual/` | Norvy — Field Manual (Behance / Dribbble case study) |
+| `norvy/` | Norvy — folding e-bike (Fold Motion) |
 | `shift-26/` | SHIFT / 26 — electronic music festival |
 | `curfew/` | 9/31 Curfew — Drop 07 |
 
